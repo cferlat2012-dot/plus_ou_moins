@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mon jeu</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Plus ou Moins</h1>
+    <div id="carteActuelle" class="carte"></div>
+    <div id="pioche" class="carte dos">
+      <span id="cartesRestantes" style="color:white;font-size:30px;font-weight:bold">51</span>
+    </div>
+    <p id="score">Score : 0</p>
+    <button onclick="jouer('plus')">Plus</button>
+    <button onclick="jouer('moins')">Moins</button>
+    <div id="popup" style="display:none">
+      <p id="messagePopup"></p>
+      <button onclick="location.reload()">Rejouer</button>
+    </div>
+    <script>
+      let cartes = []
+      let couleurs = ["cœur", "carreau", "trèfle", "pique"]
+      let valeurs = ["As", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Valet", "Dame", "Roi"]
+      for (let i = 0; i < couleurs.length; i++) {
+        for (let j = 0; j < valeurs.length; j++) {
+          cartes.push({valeur: valeurs[j], couleur: couleurs[i]})
+        }
+      }
+      function melangerCartes() {
+        for (let i = cartes.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1))
+          let temp = cartes[i]
+          cartes[i] = cartes[j]
+          cartes[j] = temp
+        }
+      }
+      function afficherCarte(carte) {
+        let valeurCode = {
+          "As":"A", 2:"2", 3:"3", 4:"4", 5:"5", 6:"6",
+          7:"7", 8:"8", 9:"9", 10:"T",
+          "Valet":"J", "Dame":"Q", "Roi":"K"
+        }
+        let couleurCode = {
+          "cœur":"H", "carreau":"D", "trèfle":"C", "pique":"S"
+        }
+        let nomFichier = valeurCode[carte.valeur] + couleurCode[carte.couleur]
+        document.getElementById("carteActuelle").innerHTML =
+          `<img src="poker-qr/${nomFichier}.svg" style="width:120px;height:180px">`
+      }
+      melangerCartes()
+      let indexActuel = 0
+      let score = 0
+      afficherCarte(cartes[0])
+      function jouer(choix) {
+        let carteSuivante = cartes[indexActuel + 1]
+        let carteActuelle = cartes[indexActuel]
+        let valeurActuelle = valeurs.indexOf(carteActuelle.valeur)
+        let valeurSuivante = valeurs.indexOf(carteSuivante.valeur)
+        if (choix === "plus" && valeurSuivante > valeurActuelle) {
+          score = score + 1
+          indexActuel = indexActuel + 1
+          document.getElementById("cartesRestantes").textContent = 51 - indexActuel
+          afficherCarte(cartes[indexActuel])
+          document.getElementById("score").textContent = "Score : " + score
+        } else if (choix === "moins" && valeurSuivante < valeurActuelle) {
+          score = score + 1
+          indexActuel = indexActuel + 1
+          document.getElementById("cartesRestantes").textContent = 51 - indexActuel
+          afficherCarte(cartes[indexActuel])
+          document.getElementById("score").textContent = "Score : " + score
+        } else {
+          document.getElementById("messagePopup").textContent = "💀 Perdu ! Score final : " + score
+          document.getElementById("popup").style.display = "flex"
+        }
+      }
+    </script>
+  </body>
+</html>
