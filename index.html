@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>plus ou mois</title>
+    <title>Plus ou Moins</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
   </head>
 
   <style>
@@ -73,12 +72,24 @@
     border-radius: 10px;
     cursor: pointer;
 }
+
 #pioche {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-</style>
+
+button {
+    padding: 10px 25px;
+    font-size: 18px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #e63946;
+    color: white;
+}
+  </style>
   
   <body>
     <h1>Plus ou Moins</h1>
@@ -148,7 +159,7 @@
           document.getElementById("messagePopup").textContent = "💀 Perdu ! Score final : " + score
           document.getElementById("popup").style.display = "flex"
         }
-        
+      }
     </script>
   </body>
 </html>
